@@ -11,6 +11,8 @@ import VisuallyHidden from "../VisuallyHidden";
 
 import styles from "./Toast.module.css";
 
+import { ToastContext } from "../ToastProvider";
+
 const ICONS_BY_VARIANT = {
   notice: Info,
   warning: AlertTriangle,
@@ -18,7 +20,9 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({ id, variant, handleDismiss, children }) {
+function Toast({ id, variant, children }) {
+  const { dismissToast } = React.useContext(ToastContext);
+
   if (!ICONS_BY_VARIANT.hasOwnProperty(variant)) {
     throw new Error(
       `Unrecognized variant ${variant}, legal variants are: ${Object.keys(
@@ -35,7 +39,7 @@ function Toast({ id, variant, handleDismiss, children }) {
         <Tag size={24} />
       </div>
       <p className={styles.content}>{children} </p>
-      <button className={styles.closeButton} onClick={() => handleDismiss(id)}>
+      <button className={styles.closeButton} onClick={() => dismissToast(id)}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
