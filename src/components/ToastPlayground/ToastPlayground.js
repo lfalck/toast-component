@@ -2,6 +2,7 @@ import React from "react";
 
 import Button from "../Button";
 import Toast from "../Toast";
+import ToastShelf from "../ToastShelf";
 
 import styles from "./ToastPlayground.module.css";
 
@@ -12,10 +13,25 @@ function ToastPlayground() {
     VARIANT_OPTIONS[0]
   );
   const [message, setMessage] = React.useState("");
-  const [showToast, setShowToast] = React.useState(false);
+  const [toastCollection, setToastCollection] = React.useState([]);
 
-  function handleDismiss() {
-    setShowToast(false);
+  function handleDismiss(id) {
+    const nextToastCollection = toastCollection.filter((toast) => {
+      return toast.id !== id;
+    });
+    setToastCollection(nextToastCollection);
+  }
+
+  function addToast() {
+    const id = crypto.randomUUID();
+    const newToast = {
+      id,
+      variant: variantChecked,
+      handleDismiss,
+      message,
+    };
+    let nextToastCollection = [...toastCollection, newToast];
+    setToastCollection(nextToastCollection);
   }
 
   return (
@@ -24,10 +40,20 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-      {showToast && (
-        <Toast variant={variantChecked} handleDismiss={handleDismiss}>
-          {message}
-        </Toast>
+      {toastCollection.length > 0 && (
+        <ToastShelf>
+          {toastCollection.map((toast) => {
+            return (
+              <Toast
+                key={toast.id}
+                variant={toast.variant}
+                handleDismiss={toast.handleDismiss}
+              >
+                {toast.message}
+              </Toast>
+            );
+          })}
+        </ToastShelf>
       )}
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -77,7 +103,7 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button onClick={() => setShowToast(true)}>Pop Toast!</Button>
+            <Button onClick={() => addToast()}>Pop Toast!</Button>
           </div>
         </div>
       </div>

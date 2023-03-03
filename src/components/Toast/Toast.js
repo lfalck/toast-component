@@ -18,7 +18,7 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({ variant, handleDismiss, children }) {
+function Toast({ id, variant, handleDismiss, children }) {
   if (!ICONS_BY_VARIANT.hasOwnProperty(variant)) {
     throw new Error(
       `Unrecognized variant ${variant}, legal variants are: ${Object.keys(
@@ -30,16 +30,21 @@ function Toast({ variant, handleDismiss, children }) {
   const Tag = ICONS_BY_VARIANT[variant];
 
   return (
-    <div className={`${styles.toast} ${styles[variant]}`}>
-      <div className={styles.iconContainer}>
-        <Tag size={24} />
+    <li className={styles.toastWrapper}>
+      <div className={`${styles.toast} ${styles[variant]}`}>
+        <div className={styles.iconContainer}>
+          <Tag size={24} />
+        </div>
+        <p className={styles.content}>{children} </p>
+        <button
+          className={styles.closeButton}
+          onClick={() => handleDismiss(id)}
+        >
+          <X size={24} />
+          <VisuallyHidden>Dismiss message</VisuallyHidden>
+        </button>
       </div>
-      <p className={styles.content}>{children} </p>
-      <button className={styles.closeButton} onClick={() => handleDismiss()}>
-        <X size={24} />
-        <VisuallyHidden>Dismiss message</VisuallyHidden>
-      </button>
-    </div>
+    </li>
   );
 }
 
