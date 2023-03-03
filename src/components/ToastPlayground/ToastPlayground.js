@@ -27,7 +27,6 @@ function ToastPlayground() {
     const newToast = {
       id,
       variant: variantChecked,
-      handleDismiss,
       message,
     };
     let nextToastCollection = [...toastCollection, newToast];
@@ -47,7 +46,7 @@ function ToastPlayground() {
               <Toast
                 key={toast.id}
                 variant={toast.variant}
-                handleDismiss={toast.handleDismiss}
+                handleDismiss={() => handleDismiss(toast.id)}
               >
                 {toast.message}
               </Toast>
