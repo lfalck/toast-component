@@ -30,21 +30,16 @@ function Toast({ id, variant, handleDismiss, children }) {
   const Tag = ICONS_BY_VARIANT[variant];
 
   return (
-    <li className={styles.toastWrapper}>
-      <div className={`${styles.toast} ${styles[variant]}`}>
-        <div className={styles.iconContainer}>
-          <Tag size={24} />
-        </div>
-        <p className={styles.content}>{children} </p>
-        <button
-          className={styles.closeButton}
-          onClick={() => handleDismiss(id)}
-        >
-          <X size={24} />
-          <VisuallyHidden>Dismiss message</VisuallyHidden>
-        </button>
+    <div className={`${styles.toast} ${styles[variant]}`}>
+      <div className={styles.iconContainer}>
+        <Tag size={24} />
       </div>
-    </li>
+      <p className={styles.content}>{children} </p>
+      <button className={styles.closeButton} onClick={() => handleDismiss(id)}>
+        <X size={24} />
+        <VisuallyHidden>Dismiss message</VisuallyHidden>
+      </button>
+    </div>
   );
 }
 
