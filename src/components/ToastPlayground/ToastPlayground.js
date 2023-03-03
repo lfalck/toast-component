@@ -22,7 +22,8 @@ function ToastPlayground() {
     setToastCollection(nextToastCollection);
   }
 
-  function addToast() {
+  function addToast(event) {
+    event.preventDefault();
     const id = crypto.randomUUID();
     const newToast = {
       id,
@@ -31,6 +32,8 @@ function ToastPlayground() {
     };
     let nextToastCollection = [...toastCollection, newToast];
     setToastCollection(nextToastCollection);
+    setMessage("");
+    setVariantChecked(VARIANT_OPTIONS[0]);
   }
 
   return (
@@ -54,7 +57,10 @@ function ToastPlayground() {
           })}
         </ToastShelf>
       )}
-      <div className={styles.controlsWrapper}>
+      <form
+        className={styles.controlsWrapper}
+        onSubmit={(event) => addToast(event)}
+      >
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -102,10 +108,10 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button onClick={() => addToast()}>Pop Toast!</Button>
+            <Button>Pop Toast!</Button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
