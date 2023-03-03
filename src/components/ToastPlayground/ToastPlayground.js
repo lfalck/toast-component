@@ -43,19 +43,10 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
       {toastCollection.length > 0 && (
-        <ToastShelf>
-          {toastCollection.map((toast) => {
-            return (
-              <Toast
-                key={toast.id}
-                variant={toast.variant}
-                handleDismiss={() => handleDismiss(toast.id)}
-              >
-                {toast.message}
-              </Toast>
-            );
-          })}
-        </ToastShelf>
+        <ToastShelf
+          toastCollection={toastCollection}
+          handleDismiss={handleDismiss}
+        />
       )}
       <form
         className={styles.controlsWrapper}
